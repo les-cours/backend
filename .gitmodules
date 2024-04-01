@@ -1,3 +1,12 @@
 [submodule "user-service"]
 	path = user-service
 	url = git@github.com:les-cours/user-service.git
+[submodule "user-api"]
+	path = user-api
+	url = git@github.com:les-cours/user-api.git
+[submodule "gateway"]
+	path = gateway
+	url = git@github.com:les-cours/gateway.git
+[submodule "auth-service"]
+	path = auth-service
+	url = git@github.com:les-cours/auth-service.git
