@@ -10,3 +10,6 @@
 [submodule "auth-service"]
 	path = auth-service
 	url = git@github.com:les-cours/auth-service.git
+[submodule "organization-service"]
+	path = organization-service
+	url = git@github.com:les-cours/organization-service.git

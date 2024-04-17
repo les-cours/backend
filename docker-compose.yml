@@ -1,0 +1,127 @@
+
+version: "1.0"
+services:
+  user-service:
+    build:
+      context: ./user-service
+    expose:
+      - 9001
+    depends_on:
+      - postgres
+    environment:
+      APP_POSTGRES_USERNAME: postgres
+      APP_NO_REPLY_EMAIL: chouaib.chouache@univ-constantine2.dz
+      APP_NO_REPLY_USERNAME: apiKey
+      APP_NO_REPLY_PASSWORD: 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
+      APP_STMP_PORT: 465
+      APP_STMP_HOST: smtp.sendgrid.net
+      APP_SEND_GRID_API_KEY: SEND_GRID_KEY
+      APP_RESET_PASSWORD_LINK_LIFE: 1800
+      APP_ACCOUNT_CONFIRM_ENDPOINT: https://localhost:3001/confirm/
+      APP_GRPC_PORT: 9001
+      APP_HTTP_PORT: 8080
+      APP_RESET_PASSWORD_ENDPOINT: https://localhost:3001/reset/
+      APP_STAGE: staging
+      APP_POSTGRES_PASSWORD: admin
+      APP_POSTGRES_HOST: postgres
+      APP_POSTGRES_DBNAME: postgres
+      APP_POSTGRES_SSL_MODE: disable
+      APP_POSTGRES_PORT: 5432
+      APP_USER_SIGNUP_ENDPOINT: https://localhost:3001/user-signup/
+      APP_STRIPE_FREE_PLAN: price_1N8I2yDQYabOMMtd7jCceFNF
+      APP_SIGNUP_LINK_LIFE: 2592000
+      APP_AUTH_SERVICE_HOST: auth-service
+      APP_AUTH_SERVICE_PORT: 3043
+
+    # restart: on-failure:15
+
+  user-api:
+    build:
+      context: ./user-api
+    expose:
+      - 8001
+    depends_on:
+      - user-service
+    environment:
+      APP_HTTP_PORT: "8001"
+      APP_USERS_SERVICE_HOST: "user-service"
+      APP_USERS_SERVICE_PORT: "9001"
+  
+  auth-service:
+    build:
+      context: ./auth-service
+    ports:
+      - "3004:3004"
+    depends_on:
+      - postgres
+      - user-service
+    environment:
+      APP_POSTGRES_HOST: postgres
+      IDAPP_POSTGRES_DBNAME: postgres
+      APP_POSTGRES_SSL_MODE: disable
+      APP_POSTGRES_PORT: 5432
+      APP_POSTGRES_USERNAME: postgres
+      APP_POSTGRES_PASSWORD: admin
+      APP_GRPC_PORT: "3043"
+      APP_HTTP_PORT: "3004"
+      APP_TOKEN_TYPE: Bearer
+      APP_ALLOWED_DOMAINS: ""
+      APP_ACCESS_TOKEN_LIFE: "60"
+      APP_REFRESH_TOKEN_LIFE: "1296000" # 15*24*3600 = 15days
+      APP_MAX_LOGIN_ATTEMPT: "10"
+      APP_LOGIN_AGAIN_ALLOW_LIFE: "3600"
+      APP_USERS_SERVICE_HOST: "user-service"
+      APP_USERS_SERVICE_PORT: "9001"
+      APP_JWT_ACCESS_TOKEN_SECRET: "zFV+pt=Z{+M</|]&Kz'fMH(H_5IH1#B-_{s9+rIN;f;<832Mas,dCY{7a7tY0Rj)"
+      APP_JWT_REFRESH_TOKEN_SECRET: 'Rp<zb%U''RIBX3&yzqKM!(e=VImznp-b%||ao6%zegL)LA,*%Ms5^ie''JGx"TO+X'
+      APP_SIGNUP_LINK_LIFE: 2592000
+      APP_JWT_SIGNUP_TOKEN_SECRET: "zFV+pt=Z{+M</|]&Kz'fMH(H_5IH1#B-_{s9+rIN;f;<832Mas,dCY{7a7tY0Rj"
+
+  organization-service:
+    build:
+      context: ./organization-service
+    expose:
+      - 9002
+    depends_on:
+      - postgres
+      - user-service
+    environment:
+      APP_POSTGRES_USERNAME: postgres
+      APP_POSTGRES_DBNAME: postgres
+      APP_POSTGRES_PASSWORD: admin
+      APP_POSTGRES_SSL_MODE: disable
+      APP_POSTGRES_HOST: postgres
+      APP_POSTGRES_PORT: 5432
+
+      APP_GRPC_PORT: "9002"
+      APP_HTTP_PORT: "8080"
+      APP_AGENT_SERVICE_HOST: "user-service"
+      APP_AGENT_SERVICE_PORT: "9001"
+ 
+  gateway:
+    build:
+      context: ./gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-api
+    environment:
+      APP_HTTP_PORT: "8080"
+      APP_HTTP_HOST: "localhost"
+      APP_USER_API_URL: "http://user-api:8001/api"
+      APP_AUTH_API_END_POINT: "http://auth-service:3004/token-health"
+
+  
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+    volumes:
+      - postgresql_data_container:/data/db
+
+volumes:
+  postgresql_data_container:
