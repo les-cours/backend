@@ -6,8 +6,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 
 CREATE TABLE plan (
-    id SERIAL PRIMARY KEY,
-    plan_id TEXT NOT NULL UNIQUE,
+    plan_id TEXT  PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT DEFAULT '',
     price INT NOT NULL,
@@ -18,8 +17,8 @@ CREATE TABLE plan (
 );
 
 CREATE TABLE accounts (
-    id SERIAL PRIMARY KEY,
-    account_id TEXT NOT NULL UNIQUE,
+    account_id TEXT PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     status ACCOUNT_STATE NOT NULL,
@@ -61,15 +60,21 @@ CREATE TABLE subjects (
 
 
 
+CREATE TABLE cities (
+  id SERIAL PRIMARY KEY,
+  city_name VARCHAR(50) UNIQUE NOT NULL
+);
+
 CREATE TABLE students (
     id SERIAL PRIMARY KEY,
     student_id TEXT REFERENCES accounts(account_id) ON DELETE CASCADE,
     grade_id TEXT REFERENCES grades(grade_id) ON DELETE CASCADE,
-    username TEXT NOT NULL,
+    city_id INTEGER REFERENCES cities(id) ON DELETE CASCADE,
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
-    status BOOLEAN DEFAULT TRUE,
-    online_status bool DEFAULT TRUE,
+    gender CHAR(1) CHECK (gender IN ('M', 'F')),
+    date_of_birth DATE DEFAULT '2000-01-01',
+    online_status BOOLEAN DEFAULT TRUE,
     default_avatar TEXT NOT NULL DEFAULT '',
     notification_status BOOLEAN DEFAULT TRUE,
 	avatar TEXT NOT NULL DEFAULT ''
@@ -77,7 +82,6 @@ CREATE TABLE students (
 
 CREATE TABLE teachers (
     teacher_id TEXT PRIMARY KEY REFERENCES accounts(account_id) ON DELETE CASCADE,  -- one to one
-    username TEXT NOT NULL,
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL
 );
@@ -106,46 +110,15 @@ CREATE TABLE login_history (
 
 
 
-INSERT INTO plan ("id","plan_id","name","description","price","new_price","promotion","level","category") VALUES (1,'PLAN_free','free','free',0,0,'FALSE',1,'test');
+INSERT INTO plan ("plan_id","name","description","price","new_price","promotion","level","category") VALUES ('PLAN_free','free','free',0,0,'FALSE',1,'test');
 
-INSERT INTO accounts ("id","account_id","email","password","status","user_type","plan_id") VALUES (2,'1a395308-7ac9-44d7-80af-72e57c8892d8','chouaib@school.dz','$2a$06$ouSixblRauitV1UzPhyjf.wPNoBTZ.0q.kdLGPHvmg2RGp7WZ7CL2','active','student','PLAN_free');
+INSERT INTO accounts ("username","account_id","email","password","status","user_type","plan_id") VALUES ('chouache_chouaib','1a395308-7ac9-44d7-80af-72e57c8892d8','chouaib@school.dz','$2a$06$ouSixblRauitV1UzPhyjf.wPNoBTZ.0q.kdLGPHvmg2RGp7WZ7CL2','active','student','PLAN_free');
 
-INSERT INTO students ("id","student_id","grade_id","username","firstname","lastname","status","online_status","default_avatar","notification_status","avatar") VALUES (1,'1a395308-7ac9-44d7-80af-72e57c8892d8',NULL,'chouache_chouaib','chouache','_chouaib','TRUE','TRUE','
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      width="64px"
-      height="64px"
-      x="0px"
-        y="0px"
-      viewBox="0 0 64 64"
-      version="1.1"
-    >
-      <defs>
-        <style type="text/css">
-          @import url("https://fonts.googleapis.com/css2?family=Inter:wght@700");
-        </style>
-      </defs>
-      <rect fill="#a46f49" cx="32" width="64" height="64" cy="32" r="32" />
-      <text
-        x="50%"
-        y="50%"
-        style="
-          line-height: 1;
-          font-family: ''Inter'', sans-serif;
-          font-weight: 700;
-        "
-        alignment-baseline="middle"
-        text-anchor="middle"
-        font-size="28"
-        font-weight="400"
-        dy=".1em"
-        dominant-baseline="middle"
-        fill="#ffffff"
-      >c_
-      </text>
-  </svg>
-  ','TRUE','');
+INSERT INTO cities (id,city_name) VALUES (1,'SETIF');
+
+
+
+
 
 INSERT INTO "public"."permissions" ("id","account_id","write_comment","live","settings") VALUES (1,'1a395308-7ac9-44d7-80af-72e57c8892d8','FALSE','FALSE','FALSE');
 
@@ -204,3 +177,6 @@ VALUES
 ('LITERATURE_SCIENCE_2', 'GRADE_2_MATH'),
 ('MATH_SCIENCE_1', 'GRADE_1_SYS');
 
+
+INSERT INTO students (student_id, grade_id, city_id, firstname, lastname, gender, date_of_birth, online_status, default_avatar, notification_status)
+VALUES ('1a395308-7ac9-44d7-80af-72e57c8892d8', 'GRADE_3_MATH', 1, 'chouache', '_chouaib', 'M', '2000-03-04', TRUE, '', TRUE);
