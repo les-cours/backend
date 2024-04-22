@@ -13,3 +13,6 @@
 [submodule "organization-service"]
 	path = organization-service
 	url = git@github.com:les-cours/organization-service.git
+[submodule "learning-service"]
+	path = learning-service
+	url = https://github.com/les-cours/learning-service
