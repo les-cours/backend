@@ -108,7 +108,18 @@ CREATE TABLE login_history (
         city VARCHAR(512) NOT NULL
 );
 
+CREATE TABLE email_confirmation (
+    account_id TEXT PRIMARY KEY,
+    code INT NOT NULL,
+    expires_at INT NOT NULL
+);
 
+
+CREATE TABLE teachers_invitations (
+    teacher_id TEXT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    subjects TEXT NOT NULL
+);
 
 INSERT INTO plan ("plan_id","name","description","price","new_price","promotion","level","category") VALUES ('PLAN_free','free','free',0,0,'FALSE',1,'test');
 
