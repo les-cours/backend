@@ -11,15 +11,15 @@ services:
     environment:
       APP_POSTGRES_USERNAME: postgres
       APP_NO_REPLY_EMAIL: chouaib.chouache@univ-constantine2.dz
-      APP_NO_REPLY_USERNAME: apiKey
-      APP_NO_REPLY_PASSWORD: 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
+      APP_NO_REPLY_USERNAME: NOrEpLy
+      APP_NO_REPLY_PASSWORD: s3yN5Ffz6MkCod
       APP_STMP_PORT: 465
       APP_STMP_HOST: smtp.sendgrid.net
-      APP_SEND_GRID_API_KEY: SEND_GRID_KEY
+      APP_SEND_GRID_API_KEY: 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
       APP_RESET_PASSWORD_LINK_LIFE: 1800
       APP_ACCOUNT_CONFIRM_ENDPOINT: https://localhost:3001/confirm/
       APP_GRPC_PORT: 9001
-      APP_HTTP_PORT: 8080
+      APP_HTTP_PORT: 9090
       APP_RESET_PASSWORD_ENDPOINT: https://localhost:3001/reset/
       APP_STAGE: staging
       APP_POSTGRES_PASSWORD: admin
@@ -94,19 +94,39 @@ services:
       APP_POSTGRES_PORT: 5432
 
       APP_GRPC_PORT: "9002"
-      APP_HTTP_PORT: "8080"
-      APP_AGENT_SERVICE_HOST: "user-service"
-      APP_AGENT_SERVICE_PORT: "9001"
+      APP_HTTP_PORT: "9090"
+      APP_USER_SERVICE_HOST: "user-service"
+      APP_USER_SERVICE_PORT: "9001"
+
+  learning-service:
+    build:
+      context: ./organization-service
+    expose:
+      - 9003
+    depends_on:
+      - postgres
+      - user-service
+      - organization-service
+    environment:
+      APP_POSTGRES_USERNAME: postgres
+      APP_POSTGRES_DBNAME: postgres
+      APP_POSTGRES_PASSWORD: admin
+      APP_POSTGRES_SSL_MODE: disable
+      APP_POSTGRES_HOST: postgres
+      APP_POSTGRES_PORT: 5432
+      APP_GRPC_PORT: "9003"
+      APP_HTTP_PORT: "9090"
+
  
   gateway:
     build:
       context: ./gateway
     ports:
-      - "8080:8080"
+      - "9090:9090"
     depends_on:
       - user-api
     environment:
-      APP_HTTP_PORT: "8080"
+      APP_HTTP_PORT: "9090"
       APP_HTTP_HOST: "localhost"
       APP_USER_API_URL: "http://user-api:8001/api"
       APP_AUTH_API_END_POINT: "http://auth-service:3004/token-health"

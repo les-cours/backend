@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 --       CREATE TYPE PAYMENT_METHOD AS ENUM('baridimob', 'card', 'flexi', 'paypal');
-      CREATE TYPE ACCOUNT_STATE AS ENUM('active', 'disabled', 'banned');
+      CREATE TYPE ACCOUNT_STATE AS ENUM('active', 'inactive', 'banned');
       CREATE TYPE USER_TYPE AS ENUM('student', 'teacher', 'admin');
       CREATE TYPE SCHOOLS AS ENUM('school','middle','high');
 
