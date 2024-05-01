@@ -16,3 +16,6 @@
 [submodule "learning-service"]
 	path = learning-service
 	url = https://github.com/les-cours/learning-service
+[submodule "learning-api"]
+	path = learning-api
+	url = https://github.com/les-cours/learning-api
