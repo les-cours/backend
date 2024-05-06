@@ -1,193 +1,208 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
---       CREATE TYPE PAYMENT_METHOD AS ENUM('baridimob', 'card', 'flexi', 'paypal');
-      CREATE TYPE ACCOUNT_STATE AS ENUM('active', 'inactive', 'banned');
-      CREATE TYPE USER_TYPE AS ENUM('student', 'teacher', 'admin');
-      CREATE TYPE SCHOOLS AS ENUM('school','middle','high');
 
-
-CREATE TABLE plan (
-    plan_id TEXT  PRIMARY KEY,
-    name TEXT NOT NULL,
-    description TEXT DEFAULT '',
-    price INT NOT NULL,
-    new_price INT DEFAULT 0,
-    promotion BOOLEAN DEFAULT FALSE,
-    level INT NOT NULL,
-    category TEXT NOT NUll
-);
+CREATE TYPE ACCOUNT_STATE AS ENUM('active', 'inactive', 'banned');
+CREATE TYPE USER_TYPE AS ENUM('student', 'teacher', 'admin');
+CREATE TYPE SCHOOLS AS ENUM('school', 'middle', 'high');
 
 CREATE TABLE accounts (
-    account_id TEXT PRIMARY KEY,
-    username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL UNIQUE,
+    account_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password TEXT NOT NULL,
     status ACCOUNT_STATE NOT NULL,
     user_type USER_TYPE NOT NULL,
-    plan_id TEXT REFERENCES plan(plan_id)
+    online_status BOOLEAN DEFAULT TRUE
 );
 
-/**
- * Roles
- **/
+CREATE INDEX idx_accounts_username ON accounts(username);
+CREATE INDEX idx_accounts_email ON accounts(email);
+
 CREATE TABLE permissions (
-    id SERIAL PRIMARY KEY,
-    account_id TEXT REFERENCES accounts(account_id) ON DELETE CASCADE,
-    write_comment BOOLEAN NOT NULL,
-    live BOOLEAN NOT NULL,
-    settings BOOLEAN NOT NULL
+    account_id UUID REFERENCES accounts(account_id) ON DELETE CASCADE,
+    orgs_create BOOLEAN DEFAULT FALSE,
+    orgs_update BOOLEAN DEFAULT FALSE,
+    orgs_delete BOOLEAN DEFAULT FALSE,
+    orgs_read BOOLEAN DEFAULT FALSE,
+    users_create BOOLEAN DEFAULT FALSE,
+    users_update BOOLEAN DEFAULT FALSE,
+    users_delete BOOLEAN DEFAULT FALSE,
+    users_read BOOLEAN DEFAULT FALSE,
+    learning_create BOOLEAN DEFAULT FALSE,
+    learning_update BOOLEAN DEFAULT FALSE,
+    learning_delete BOOLEAN DEFAULT FALSE,
+    learning_read BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE departments (
-    department_id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    arabic_name TEXT,
+    department_id VARCHAR(40) PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL,
+    title_ar VARCHAR(255) NOT NULL,
+    description TEXT DEFAULT '',
+    description_ar TEXT DEFAULT '',
     schools SCHOOLS NOT NULL
 );
 
 CREATE TABLE grades (
-     grade_id TEXT PRIMARY KEY,
-     department_id TEXT REFERENCES departments(department_id) ON DELETE CASCADE,
-     name TEXT NOT NULL,
-     arabic_name TEXT
+    grade_id VARCHAR(40) PRIMARY KEY DEFAULT gen_random_uuid(),
+    department_id VARCHAR(40) REFERENCES departments(department_id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    title_ar VARCHAR(255)
 );
-
 
 CREATE TABLE subjects (
-     subject_id TEXT PRIMARY KEY,
-     name TEXT NOT NULL,
-     arabic_name TEXT
+    subject_id VARCHAR(40) PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL,
+    title_ar VARCHAR(255)
 );
 
-
+CREATE TABLE grades_subjects (
+    subject_id VARCHAR(40) REFERENCES subjects(subject_id) ON DELETE CASCADE,
+    grade_id VARCHAR(40) REFERENCES grades(grade_id) ON DELETE CASCADE,
+    PRIMARY KEY (subject_id, grade_id)
+);
 
 CREATE TABLE cities (
-  id SERIAL PRIMARY KEY,
-  city_name VARCHAR(50) UNIQUE NOT NULL
+    id SERIAL PRIMARY KEY,
+    city_name VARCHAR(50) UNIQUE NOT NULL,
+    city_title_ar VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE months (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(10) UNIQUE NOT NULL,
+    title_ar VARCHAR(15) UNIQUE NOT NULL
 );
 
 CREATE TABLE students (
-    id SERIAL PRIMARY KEY,
-    student_id TEXT REFERENCES accounts(account_id) ON DELETE CASCADE,
-    grade_id TEXT REFERENCES grades(grade_id) ON DELETE CASCADE,
-    city_id INTEGER REFERENCES cities(id) ON DELETE CASCADE,
-    firstname TEXT NOT NULL,
-    lastname TEXT NOT NULL,
+    student_id UUID PRIMARY KEY REFERENCES accounts(account_id) ON DELETE CASCADE,
+    grade_id VARCHAR(40) REFERENCES grades(grade_id) ON DELETE CASCADE,
+    city_id INT REFERENCES cities(id) ON DELETE CASCADE,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
     gender CHAR(1) CHECK (gender IN ('M', 'F')),
     date_of_birth DATE DEFAULT '2000-01-01',
-    online_status BOOLEAN DEFAULT TRUE,
-    default_avatar TEXT NOT NULL DEFAULT '',
     notification_status BOOLEAN DEFAULT TRUE,
-	avatar TEXT NOT NULL DEFAULT ''
+    avatar TEXT DEFAULT '',
+    deleted_at TIMESTAMP
 );
 
 CREATE TABLE teachers (
-    teacher_id TEXT PRIMARY KEY REFERENCES accounts(account_id) ON DELETE CASCADE,  -- one to one
-    firstname TEXT NOT NULL,
-    lastname TEXT NOT NULL
-);
-
-
-CREATE TABLE grades_subjects (
-     subject_id TEXT REFERENCES subjects(subject_id) ON DELETE CASCADE,
-     grade_id TEXT REFERENCES grades(grade_id) ON DELETE CASCADE
+    teacher_id UUID PRIMARY KEY REFERENCES accounts(account_id) ON DELETE CASCADE,
+    city_id INT REFERENCES cities(id) ON DELETE CASCADE,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    gender CHAR(1) CHECK (gender IN ('M', 'F')),
+    date_of_birth DATE DEFAULT '2000-01-01',
+    description TEXT DEFAULT '',
+    description_ar TEXT DEFAULT '',
+    badge VARCHAR(255),
+    avatar TEXT DEFAULT '',
+    deleted_at TIMESTAMP
 );
 
 CREATE TABLE teacher_subjects (
-     subject_id TEXT REFERENCES subjects(subject_id) ON DELETE CASCADE,
-     teacher_id TEXT REFERENCES teachers(teacher_id) ON DELETE CASCADE
-);
-
-CREATE TABLE login_history (
-    id SERIAL PRIMARY KEY,
-    account_id TEXT REFERENCES accounts(account_id) ON DELETE CASCADE,
-    ip VARCHAR(35) NOT NULL,
-        timestamp BIGINT NOT NULL,
-        user_agent TEXT NOT NULL,
-        os_name VARCHAR(512) NOT NULL,
-        country VARCHAR(256) NOT NULL,
-        city VARCHAR(512) NOT NULL
+    subject_id VARCHAR(40) REFERENCES subjects(subject_id) ON DELETE CASCADE,
+    teacher_id UUID REFERENCES teachers(teacher_id) ON DELETE CASCADE,
+    PRIMARY KEY (subject_id, teacher_id)
 );
 
 CREATE TABLE email_confirmation (
-    account_id TEXT PRIMARY KEY,
-    code INT NOT NULL,
-    expires_at INT NOT NULL
+    account_id UUID PRIMARY KEY REFERENCES accounts(account_id) ON DELETE CASCADE,
+    code VARCHAR(40) NOT NULL,
+    expires_at TIMESTAMP NOT NULL
 );
 
-
 CREATE TABLE teachers_invitations (
-    teacher_id TEXT PRIMARY KEY,
+    teacher_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) NOT NULL,
     subjects TEXT NOT NULL
 );
 
-INSERT INTO plan ("plan_id","name","description","price","new_price","promotion","level","category") VALUES ('PLAN_free','free','free',0,0,'FALSE',1,'test');
+CREATE TABLE classrooms (
+    classroom_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    teacher_id UUID,
+    subject_id VARCHAR(40),
+    title VARCHAR(255) NOT NULL,
+    arabic_title VARCHAR(255),
+    image VARCHAR(255),
+    price VARCHAR(255),
+    badge VARCHAR(255),
+    description TEXT DEFAULT '',
+    description_ar TEXT DEFAULT '',
+    deleted_at TIMESTAMP,
+    FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id) ON DELETE SET NULL,
+    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ON DELETE SET NULL,
+    CONSTRAINT unique_teacher_subject UNIQUE (teacher_id, subject_id)
+);
 
-INSERT INTO accounts ("username","account_id","email","password","status","user_type","plan_id") VALUES ('chouache_chouaib','1a395308-7ac9-44d7-80af-72e57c8892d8','chouaib@school.dz','$2a$06$ouSixblRauitV1UzPhyjf.wPNoBTZ.0q.kdLGPHvmg2RGp7WZ7CL2','active','student','PLAN_free');
+CREATE TABLE chapters (
+    chapter_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    classroom_id UUID,
+    title VARCHAR(255),
+    arabic_title VARCHAR(255),
+    description TEXT DEFAULT '',
+    description_ar TEXT DEFAULT '',
+    deleted_at TIMESTAMP,
+    FOREIGN KEY (classroom_id) REFERENCES classrooms(classroom_id) ON DELETE SET NULL
+);
 
-INSERT INTO cities (id,city_name) VALUES (1,'SETIF');
+CREATE TABLE lessons (
+    lesson_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    chapter_id UUID,
+    title VARCHAR(255),
+    arabic_title VARCHAR(255),
+    description TEXT DEFAULT '',
+    description_ar TEXT DEFAULT '',
+    deleted_at TIMESTAMP,
+    month_id INT,
+    FOREIGN KEY (chapter_id) REFERENCES chapters(chapter_id) ON DELETE SET NULL,
+    FOREIGN KEY (month_id) REFERENCES months(id) ON DELETE SET NULL
+);
 
-
-
-
-
-INSERT INTO "public"."permissions" ("id","account_id","write_comment","live","settings") VALUES (1,'1a395308-7ac9-44d7-80af-72e57c8892d8','FALSE','FALSE','FALSE');
-
-
-INSERT INTO departments (department_id, name, arabic_name, schools)
-VALUES
-('ALG_SS', 'default', 'شعبة افتراضية', 'school'),
-('ALG_MS', 'default', 'شعبة افتراضية', 'middle'),
-('ALG_HS_MATH', 'Mathematics High School', 'شعبة رياضيات', 'high'),
-('ALG_HS_SYS', 'Sciences High School', 'شعبة علوم تجريبية', 'high'),
-('ALG_HS_LITERARY', 'Literary High School', 'شعبة أدبيات', 'high'),
-('ALG_HS_TECH', 'Technical High School', 'شعبة تقني رياضي', 'high');
-
-
--- Insert example data
-INSERT INTO grades(grade_id, department_id, name, arabic_name)
-VALUES
-('GRADE_1_SS', 'ALG_SS', 'Grade 1', 'الصف الأول'),
-('GRADE_2_SS', 'ALG_SS', 'Grade 2', 'الصف الثاني'),
-('GRADE_3_SS', 'ALG_SS', 'Grade 3', 'الصف الثالث'),
-('GRADE_4_SS', 'ALG_SS', 'Grade 4', 'الصف الرابع'),
-('GRADE_5_SS', 'ALG_SS', 'Grade 5', 'الصف الخامس'),
-
-('GRADE_1_MS', 'ALG_MS', 'Grade 1', 'الصف الأول'),
-('GRADE_2_MS', 'ALG_MS', 'Grade 2', 'الصف الثاني'),
-('GRADE_3_MS', 'ALG_MS', 'Grade 3', 'الصف الثالث'),
-('GRADE_4_MS', 'ALG_MS', 'Grade 4', 'الصف الرابع'),
-
-('GRADE_2_MATH', 'ALG_HS_MATH', 'Grade 2', 'الصف الثاني'),
-('GRADE_3_MATH', 'ALG_HS_MATH', 'Grade 3', 'الصف الثالث'),
-
-('GRADE_1_SYS', 'ALG_HS_SYS', 'Grade 1', 'الصف الأول'),
-('GRADE_2_SYS', 'ALG_HS_SYS', 'Grade 2', 'الصف الثاني'),
-('GRADE_3_SYS', 'ALG_HS_SYS', 'Grade 3', 'الصف الثالث'),
-
-('GRADE_1_LITERARY', 'ALG_HS_LITERARY', 'Grade 1', 'الصف الأول'),
-('GRADE_2_LITERARY', 'ALG_HS_LITERARY', 'Grade 2', 'الصف الثاني'),
-('GRADE_3_LITERARY', 'ALG_HS_LITERARY', 'Grade 3', 'الصف الثالث'),
-
-
-('GRADE_2_TECH', 'ALG_HS_TECH', 'Grade 2', 'الصف الثاني'),
-('GRADE_3_TECH', 'ALG_HS_TECH', 'Grade 3', 'الصف الثالث');
-
-
--- Inserting subjects
-INSERT INTO subjects (subject_id, name, arabic_name)
-VALUES
-('LITERATURE_SCIENCE_2', 'Literature (SCIENCE) 2 ', '2 الأدب علمي'),
-('MATH_SCIENCE_1', 'MATH (SCIENCE) 1 ', '1 الرياضيات علمي');
-
--- Inserting grades_subjects relationships
-INSERT INTO grades_subjects (subject_id, grade_id)
-VALUES
-('LITERATURE_SCIENCE_2', 'GRADE_2_SYS'),
-('LITERATURE_SCIENCE_2', 'GRADE_2_TECH'),
-('LITERATURE_SCIENCE_2', 'GRADE_2_MATH'),
-('MATH_SCIENCE_1', 'GRADE_1_SYS');
+CREATE TABLE documents (
+    document_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    lesson_id UUID,
+    document_type VARCHAR(6),
+    title VARCHAR(255) NOT NULL,
+    arabic_title VARCHAR(255) NOT NULL,
+    description TEXT DEFAULT '',
+    description_ar TEXT DEFAULT '',
+    duration TIME,
+    lecture_number INT,
+    FOREIGN KEY (lesson_id) REFERENCES lessons(lesson_id) ON DELETE SET NULL,
+    CHECK (document_type IN ('video', 'pdf'))
+);
 
 
-INSERT INTO students (student_id, grade_id, city_id, firstname, lastname, gender, date_of_birth, online_status, default_avatar, notification_status)
-VALUES ('1a395308-7ac9-44d7-80af-72e57c8892d8', 'GRADE_3_MATH', 1, 'chouache', '_chouaib', 'M', '2000-03-04', TRUE, '', TRUE);
+CREATE TABLE comments (
+    comment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_by UUID,
+    is_owner BOOLEAN,
+    video_id UUID,
+    comment VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    reply_to UUID,
+    FOREIGN KEY (created_by) REFERENCES accounts(account_id) ON DELETE SET NULL,
+    FOREIGN KEY (video_id) REFERENCES documents(document_id) ON DELETE SET NULL,
+    FOREIGN KEY (reply_to) REFERENCES comments(comment_id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE lessons_document (
+    lesson_id UUID,
+    document_id UUID,
+    PRIMARY KEY (lesson_id, document_id),
+    FOREIGN KEY (lesson_id) REFERENCES lessons(lesson_id) ON DELETE CASCADE
+);
+
+-- subscription
+CREATE TABLE subscription (
+    subscription_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    classroom_id UUID,
+    student_id UUID,
+    month_id INT,
+    paid_at TIMESTAMP DEFAULT now(),
+    FOREIGN KEY (classroom_id) REFERENCES classrooms(classroom_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+    FOREIGN KEY (month_id) REFERENCES months(id) ON DELETE SET NULL
+);

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="de2d3045-13f1-403d-8954-2ad237c224f1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/learning-api/graph/resolvers/video.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-api/graph/teacher.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/--force" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/api/users/users.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/api/users/users.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/api/users/users.proto" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/api/users/users.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/types/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/types/token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/types/types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/utils/GenerateToken.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/utils/GenerateToken.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway" beforeDir="false" afterPath="$PROJECT_DIR$/gateway" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-api" beforeDir="false" afterPath="$PROJECT_DIR$/learning-api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-api/api/learning/learning.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-api/api/learning/learning.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-api/api/learning/learning.proto" beforeDir="false" afterPath="$PROJECT_DIR$/learning-api/api/learning/learning.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-api/api/learning/learning_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-api/api/learning/learning_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-api/graph/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-api/graph/generated.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-api/graph/models/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-api/graph/models/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-api/graph/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/learning-api/graph/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/api/learning/learning.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/api/learning/learning.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/api/learning/learning.proto" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/api/learning/learning.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/api/learning/learning_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/api/learning/learning_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/resolvers/classroom.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/resolvers/classroom.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/resolvers/lessons.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/resolvers/lessons.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/resolvers/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/resolvers/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/resolvers/video.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/resolvers/video.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-service/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning-service/service/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migration/db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migration/db.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/organization-service" beforeDir="false" afterPath="$PROJECT_DIR$/organization-service" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/organization-service/api/users/user.proto" beforeDir="false" afterPath="$PROJECT_DIR$/organization-service/api/users/user.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/organization-service/database/database.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/organization-service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/organization-service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/organization-service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/organization-service/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/organization-service/resolvers/instance.go" beforeDir="false" afterPath="$PROJECT_DIR$/organization-service/resolvers/instance.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/organization-service/resolvers/type.go" beforeDir="false" afterPath="$PROJECT_DIR$/organization-service/resolvers/type.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/organization-service/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/organization-service/service/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api" beforeDir="false" afterPath="$PROJECT_DIR$/user-api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/api/users/user.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-api/api/users/user.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/api/users/user.proto" beforeDir="false" afterPath="$PROJECT_DIR$/user-api/api/users/user.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/api/users/user_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-api/api/users/user_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/graph/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-api/graph/generated.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/graph/models/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-api/graph/models/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/graph/resolvers/teachers.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-api/graph/resolvers/teachers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/graph/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/user-api/graph/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/graph/signup.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-api/graph/student.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/user-api/graph/student.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service" beforeDir="false" afterPath="$PROJECT_DIR$/user-service" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/api/learning/learning.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/api/learning/learning.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/api/learning/learning.proto" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/api/learning/learning.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/api/learning/learning_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/api/learning/learning_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/api/users/user.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/api/users/user.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/api/users/user.proto" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/api/users/user.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/api/users/user_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/api/users/user_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/resolvers/student.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/resolvers/student.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/resolvers/teacher.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/resolvers/teacher.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/utils/email.go" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/utils/email.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2ejw0j9NF27GUfdxqTDDDpEI2MB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "main",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/home/chouaib/code/learn/school"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>
