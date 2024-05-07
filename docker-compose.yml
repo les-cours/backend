@@ -98,6 +98,18 @@ services:
       APP_USER_SERVICE_HOST: user-service
       APP_USER_SERVICE_PORT: 9001
 
+  organization-api:
+    build:
+      context: ./organization-api
+    expose:
+      - 8002
+    depends_on:
+      - organization-service
+    environment:
+      APP_HTTP_PORT: 8002
+      APP_ORGS_SERVICE_HOST: organization-service
+      APP_ORGS_SERVICE_PORT: 9002
+
   learning-service:
     build:
       context: ./learning-service
@@ -146,6 +158,7 @@ services:
       APP_HTTP_HOST: localhost
       APP_USER_API_URL: http://user-api:8001/api
       APP_LEARNING_API_URL: http://learning-api:8003/api
+      APP_ORGS_API_URL: http://organization-api:8002/api
       APP_AUTH_API_END_POINT: http://auth-service:3004/token-health
 
   

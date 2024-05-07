@@ -19,3 +19,6 @@
 [submodule "learning-api"]
 	path = learning-api
 	url = https://github.com/les-cours/learning-api
+[submodule "organization-api"]
+	path = organization-api
+	url = https://github.com/les-cours/organization-api.git

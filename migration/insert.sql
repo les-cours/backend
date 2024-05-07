@@ -90,7 +90,6 @@ INSERT INTO grades_subjects (subject_id, grade_id) VALUES
 ('high-nat-sci-1', 'experimental-sciences-1'),
 ('high-nat-sci-2', 'experimental-sciences-2'),
 ('high-nat-sci-3', 'experimental-sciences-3'),
-('high-nat-sci-3', 'experimental-sciences-3'),
 ('high-nat-sci-3', 'mathematics-3'),
 
 ('high-phy-sci-1', 'experimental-sciences-1'),
