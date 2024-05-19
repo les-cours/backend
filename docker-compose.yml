@@ -15,10 +15,10 @@ services:
       APP_NO_REPLY_PASSWORD: s3yN5Ffz6MkCod
       APP_STMP_PORT: 465
       APP_RESET_PASSWORD_LINK_LIFE: 1800
-      APP_TEACHER_CONFIRM_ENDPOINT: https://localhost:3001/confirm/?teacherID=
+      APP_TEACHER_CONFIRM_ENDPOINT: https://localhost:3000/confirm/?teacherID=
       APP_GRPC_PORT: 9001
       APP_HTTP_PORT: 9090
-      APP_RESET_PASSWORD_ENDPOINT: https://localhost:3001/reset/
+      APP_RESET_PASSWORD_ENDPOINT: https://localhost:300/reset/
       APP_STAGE: staging
       APP_POSTGRES_PASSWORD: admin
       APP_POSTGRES_HOST: postgres
@@ -145,6 +145,23 @@ services:
       APP_LEARNING_SERVICE_HOST: learning-service
       APP_LEARNING_SERVICE_PORT: 9003
  
+  paiment-api:
+    build:
+      context: ./test
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    environment:
+      APP_HTTP_PORT: 8080
+      APP_POSTGRES_USERNAME: postgres
+      APP_POSTGRES_DBNAME: postgres
+      APP_POSTGRES_PASSWORD: admin
+      APP_POSTGRES_SSL_MODE: disable
+      APP_POSTGRES_HOST: postgres
+      APP_POSTGRES_PORT: 5432
+
+   
   gateway:
     build:
       context: ./gateway

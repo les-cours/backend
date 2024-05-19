@@ -1,5 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+
+
 CREATE TYPE ACCOUNT_STATE AS ENUM('active', 'inactive', 'banned');
 CREATE TYPE USER_TYPE AS ENUM('student', 'teacher', 'admin');
 CREATE TYPE SCHOOLS AS ENUM('school', 'middle', 'high');
@@ -64,7 +66,7 @@ CREATE TABLE grades_subjects (
 CREATE TABLE cities (
     id SERIAL PRIMARY KEY,
     city_name VARCHAR(50) UNIQUE NOT NULL,
-    city_title_ar VARCHAR(50) UNIQUE NOT NULL
+    city_name_ar VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE months (
@@ -83,6 +85,7 @@ CREATE TABLE students (
     date_of_birth DATE DEFAULT '2000-01-01',
     notification_status BOOLEAN DEFAULT TRUE,
     avatar TEXT DEFAULT '',
+    amount SERIAL NOT NULL DEFAULT 0, --MAX = 214,748,3647.00
     deleted_at TIMESTAMP
 );
 
@@ -198,6 +201,18 @@ CREATE TABLE lessons_document (
 -- subscription
 CREATE TABLE subscription (
     subscription_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    classroom_id UUID,
+    student_id UUID,
+    month_id INT,
+    paid_at TIMESTAMP DEFAULT now(),
+    FOREIGN KEY (classroom_id) REFERENCES classrooms(classroom_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
+    FOREIGN KEY (month_id) REFERENCES months(id) ON DELETE SET NULL
+);
+
+-- discounts
+CREATE TABLE discounts (
+    discounts_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     classroom_id UUID,
     student_id UUID,
     month_id INT,
