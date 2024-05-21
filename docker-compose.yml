@@ -144,10 +144,10 @@ services:
       APP_HTTP_PORT: 8003
       APP_LEARNING_SERVICE_HOST: learning-service
       APP_LEARNING_SERVICE_PORT: 9003
- 
-  paiment-api:
+
+  payment-api:
     build:
-      context: ./test
+      context: ./payment-api
     ports:
       - 8080:8080
     depends_on:

@@ -172,7 +172,7 @@ INSERT INTO months (id, title, title_ar) VALUES
 (12, 'December', 'ديسمبر');
 
 
-INSERT INTO cities (id, city_name, city_title_ar) VALUES
+INSERT INTO cities (id, city_name, city_name_ar)  VALUES
 (1, 'Adrar', 'أدرار'),
 (2, 'Chlef', 'الشلف'),
 (3, 'Laghouat', 'الأغواط'),

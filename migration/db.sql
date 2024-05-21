@@ -85,7 +85,7 @@ CREATE TABLE students (
     date_of_birth DATE DEFAULT '2000-01-01',
     notification_status BOOLEAN DEFAULT TRUE,
     avatar TEXT DEFAULT '',
-    amount SERIAL NOT NULL DEFAULT 0, --MAX = 214,748,3647.00
+    amount SERIAL NOT NULL, --MAX = 214,748,3647.00
     deleted_at TIMESTAMP
 );
 
