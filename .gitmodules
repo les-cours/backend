@@ -22,6 +22,6 @@
 [submodule "organization-api"]
 	path = organization-api
 	url = https://github.com/les-cours/organization-api.git
-[submodule "test"]
-	path = test
+[submodule "payment-api"]
+	path = payment-api
 	url = https://github.com/les-cours/payment-api.git
