@@ -172,6 +172,7 @@ CREATE TABLE documents (
     description_ar TEXT DEFAULT '',
     duration TIME,
     lecture_number INT,
+    document_link VARCHAR(255) NOT NULL,
     FOREIGN KEY (lesson_id) REFERENCES lessons(lesson_id) ON DELETE SET NULL,
     CHECK (document_type IN ('video', 'pdf'))
 );
