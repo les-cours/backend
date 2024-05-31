@@ -222,3 +222,11 @@ CREATE TABLE discounts (
     FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE,
     FOREIGN KEY (month_id) REFERENCES months(id) ON DELETE SET NULL
 );
+
+CREATE TABLE payment_codes (
+    id serial PRIMARY KEY ,
+    created_at timestamp without time zone NOT NULL DEFAULT now(),
+    code character varying(50) NOT NULL,
+    amount serial NOT NULL,
+    used_at timestamp without time zone NULL
+  );

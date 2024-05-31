@@ -8,6 +8,7 @@ services:
       - 9001
     depends_on:
       - postgres
+      - payment-api
     environment:
       APP_POSTGRES_USERNAME: postgres
       APP_NO_REPLY_EMAIL: chouaib.chouache@univ-constantine2.dz
@@ -161,7 +162,18 @@ services:
       APP_POSTGRES_HOST: postgres
       APP_POSTGRES_PORT: 5432
 
-   
+  payment-gateway:
+    build:
+      context: ./payment-gateway
+    ports:
+      - 8081:8081
+    depends_on:
+      - payment-api
+    environment:
+      APP_HTTP_PORT: 8081
+      APP_PAYMENT_SERVICE_HOST: payment-api
+      APP_PAYMENT_SERVICE_PORT: 8080
+
   gateway:
     build:
       context: ./gateway
@@ -176,6 +188,7 @@ services:
       APP_USER_API_URL: http://user-api:8001/api
       APP_LEARNING_API_URL: http://learning-api:8003/api
       APP_ORGS_API_URL: http://organization-api:8002/api
+      APP_PAYMENT_API_URL: http://payment-gateway:8081/api
       APP_AUTH_API_END_POINT: http://auth-service:3004/token-health
 
   

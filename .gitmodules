@@ -25,3 +25,6 @@
 [submodule "payment-api"]
 	path = payment-api
 	url = https://github.com/les-cours/payment-api.git
+[submodule "payment-gateway"]
+	path = payment-gateway
+	url = https://github.com/les-cours/payment-gateway.git
