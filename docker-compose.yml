@@ -120,6 +120,7 @@ services:
       - postgres
       - user-service
       - organization-service
+      - mongo
     environment:
       APP_ORGS_SERVICE_HOST: orgs-service
       APP_ORGS_SERVICE_PORT: 9002
@@ -133,6 +134,12 @@ services:
       APP_POSTGRES_PORT: 5432
       APP_GRPC_PORT: 9003
       APP_HTTP_PORT: 9090
+      APP_MONGO_DBNAME: karini
+      APP_MONGO_PASSWORD: rootpassword
+      APP_MONGO_HOST: mongo:27017,mongo:27018,mongo:27019
+      APP_MONGO_URI: mongodb://root:rootpassword@mongo:27017,mongo:27018,mongo:27019/?replicaSet=myRS
+      APP_MONGO_REPLICASET: myRS
+      APP_MONGO_USERNAME: root
 
   learning-api:
     build:
@@ -203,5 +210,23 @@ services:
     volumes:
       - postgresql_data_container:/data/db
 
+  mongo:
+    hostname: mongo
+    image: mongo:6
+    volumes:
+      - ./script/mongo-keyfile.key:/data/keyfile/mongo-keyfile.key
+      - ./script/mongodb-init.sh:/scripts/mongodb-init.sh
+      - mongodb_data_container:/data
+    ports:
+      - "27017:27017"
+      - "27018:27018"
+      - "27019:27019"
+    expose:
+      - 27017
+      - 27018
+      - 27019
+    entrypoint: [ "bash", "-c", "/scripts/mongodb-init.sh" ]
+
 volumes:
   postgresql_data_container:
+  mongodb_data_container:
