@@ -157,9 +157,8 @@ CREATE TABLE lessons (
     description TEXT DEFAULT '',
     description_ar TEXT DEFAULT '',
     deleted_at TIMESTAMP,
-    month_id INT,
-    FOREIGN KEY (chapter_id) REFERENCES chapters(chapter_id) ON DELETE SET NULL,
-    FOREIGN KEY (month_id) REFERENCES months(id) ON DELETE SET NULL
+    lesson_order INT,
+    FOREIGN KEY (chapter_id) REFERENCES chapters(chapter_id) ON DELETE SET NULL
 );
 
 CREATE TABLE documents (

@@ -28,3 +28,6 @@
 [submodule "payment-gateway"]
 	path = payment-gateway
 	url = https://github.com/les-cours/payment-gateway.git
+[submodule "chat-api"]
+	path = chat-api
+	url = https://github.com/les-cours/chat-api.git
