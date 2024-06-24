@@ -32,7 +32,11 @@ CREATE TABLE permissions (
     learning_create BOOLEAN DEFAULT FALSE,
     learning_update BOOLEAN DEFAULT FALSE,
     learning_delete BOOLEAN DEFAULT FALSE,
-    learning_read BOOLEAN DEFAULT FALSE
+    learning_read BOOLEAN DEFAULT FALSE,
+    payment_create BOOLEAN DEFAULT FALSE,
+    payment_update BOOLEAN DEFAULT FALSE,
+    payment_delete BOOLEAN DEFAULT FALSE,
+    payment_read BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE departments (
